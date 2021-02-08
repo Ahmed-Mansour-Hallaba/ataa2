@@ -32,6 +32,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
 
     ];
+    public function userable()
+    {
+        return $this->morphTo();
+    }
     public function getJWTIdentifier()
     {
         return $this->getKey();
