@@ -16,6 +16,7 @@ class CreateOrganizationsTable extends Migration
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
             $table->string('mobile');
+            $table->string('mobile2');
             $table->string('img')->default('images/default.png');
 
         });

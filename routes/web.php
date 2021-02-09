@@ -16,10 +16,13 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
-$router->group(['prefix' => 'api'], function () use ($router) {
-    // Matches "/api/register
-   $router->post('register', 'AuthController@register');
 
-     // Matches "/api/login
-    $router->post('login', 'AuthController@login');
+
+$router->post('register', 'AuthController@register');
+$router->post('login', 'AuthController@login');
+$router->post('/organization/store', 'OrganizationController@store');
+
+$router->group(['middleware' => 'auth'], function () use ($router) {
+
+    $router->get('/organization/show/{id}', 'OrganizationController@show');
 });
