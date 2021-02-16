@@ -45,4 +45,13 @@ class AuthController extends Controller
             'userable_type' => 'App\Admin'
         ]);
     }
+    public function userData()
+    {
+        if (Auth::user()->userable_type == 'App\Models\Organization')
+            return new OrganizationResource(Organization::find(Auth::user()->userable_id));
+        else if (Auth::user()->userable_type == 'App\Models\Volunteer')
+            return new VolunteerResource(Volunteer::find(Auth::user()->userable_id));
+        else
+            return Auth::user();
+    }
 }

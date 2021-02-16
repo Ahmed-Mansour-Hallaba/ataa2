@@ -21,8 +21,17 @@ $router->get('/', function () use ($router) {
 $router->post('register', 'AuthController@register');
 $router->post('login', 'AuthController@login');
 $router->post('/organization/store', 'OrganizationController@store');
+$router->post('/volunteer/store', 'VolunteerController@store');
 
 $router->group(['middleware' => 'auth'], function () use ($router) {
 
     $router->get('/organization/show/{id}', 'OrganizationController@show');
+    $router->get('/organization/list', 'OrganizationController@list');
+
+    $router->get('/volunteer/show/{id}', 'VolunteerController@show');
+    $router->get('/volunteer/list', 'VolunteerController@list');
+    $router->get('/tags/list', 'TagController@list');
+
+    $router->get('/userdata','AuthController@userData');
+
 });

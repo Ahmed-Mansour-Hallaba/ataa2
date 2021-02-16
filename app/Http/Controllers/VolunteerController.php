@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\OrganizationResource;
-use App\Models\Organization;
+use App\Http\Resources\VolunteerResource;
+use App\Message;
 use App\Models\User;
+use App\Models\Volunteer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\Message;
 
-class OrganizationController extends Controller
+class VolunteerController extends Controller
 {
     public function store(Request $request)
     {
         DB::beginTransaction();
-        $organization = new Organization();
-        $organization->mobile = $request->mobile;
-        $organization->mobile2 = $request->mobile2;
+        $volunteer = new Volunteer();
+        $volunteer->mobile = $request->mobile;
+        $volunteer->NID = $request->NID;
         $profile_picture = $request->img;
 
         $file_name = "";
@@ -42,21 +42,21 @@ class OrganizationController extends Controller
                 ], 400);
             }
         }
-        $organization->img = $file_name;
+        $volunteer->img = $file_name;
 
         if ($profile_picture != null) {
             file_put_contents("img/" . $file_name, $fileBin);
         }
 
-        // $organization->img=$request->img;
+        // $volunteer->img=$request->img;
 
-        $organization->save();
+        $volunteer->save();
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'userable_id' => $organization->id,
-            'userable_type' => 'App\Models\Organization'
+            'userable_id' => $volunteer->id,
+            'userable_type' => 'App\Models\Volunteer'
         ]);
 
         DB::commit();
@@ -66,21 +66,21 @@ class OrganizationController extends Controller
 
         return response()->json([
             "success" => true,
-            "message" => new OrganizationResource($organization)
+            "message" => new VolunteerResource($volunteer)
         ], 200);
     }
     public function update(Request $request)
     {
         DB::beginTransaction();
-        $organization = Organization::find($request->id);
-        $organization->mobile = $request->mobile;
-        $organization->mobile2 = $request->mobile2;
+        $volunteer = Volunteer::find($request->id);
+        $volunteer->mobile = $request->mobile;
+        $volunteer->mobile2 = $request->mobile2;
         $profile_picture = $request->img;
 
         $file_name = "";
         if ($profile_picture != null) {
-            if($organization->img!='img/default.png')
-                unlink($organization->img);
+            if($volunteer->img!='img/default.png')
+                unlink($volunteer->img);
             $generate_name = uniqid() . "_" . time() . date("Ymd") . "_IMG";
             $base64Image = $profile_picture;
             $fileBin = file_get_contents($base64Image);
@@ -99,8 +99,8 @@ class OrganizationController extends Controller
                 ], 400);
             }
         }
-        $organization->save();
-        $user = User::find($organization->user()->id);
+        $volunteer->save();
+        $user = User::find($volunteer->user()->id);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
@@ -111,24 +111,24 @@ class OrganizationController extends Controller
         }
         return response()->json([
             "success" => true,
-            "message" => new OrganizationResource($organization)
+            "message" => new VolunteerResource($volunteer)
         ], 200);
     }
     public function show($id)
     {
-        $organization = Organization::where('id', $id)->first();
+        $volunteer = Volunteer::where('id', $id)->first();
         return response()->json([
             "success" => true,
-            "message" => new OrganizationResource($organization)
+            "message" => new VolunteerResource($volunteer)
         ], 200);
     }
     public function list($pagination=null)
     {
-         $organizations= Organization::paginate(10)->withQueryString();
+         $volunteers= Volunteer::paginate(10)->withQueryString();
         return response()->json([
             "success" => true,
-            "message" => OrganizationResource::collection($organizations),
-            "paginate"=> $organizations
+            "message" => VolunteerResource::collection($volunteers),
+            "paginate"=> $volunteers
         ], 200);
     }
 }
