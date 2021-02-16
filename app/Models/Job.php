@@ -9,7 +9,7 @@ class Job extends Model
     public $timestamps = false;
     public function volunteers()
     {
-        return $this->hasMany('App\Models\Volunteer');
+        return $this->belongsToMany('App\Models\Volunteer','volunteers_jobs');
     }
     public function acheivers()
     {

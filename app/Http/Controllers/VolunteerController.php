@@ -14,6 +14,17 @@ class VolunteerController extends Controller
 {
     public function store(Request $request)
     {
+        /*
+        {
+            "name":"mans",
+            "email":"mans@123",
+            "password":"123456",
+            "mobile":"01201636485",
+            "NID":"297011212121",
+            "profile_picture":"encode64",
+
+        }
+        */
         DB::beginTransaction();
         $volunteer = new Volunteer();
         $volunteer->mobile = $request->mobile;
@@ -58,7 +69,12 @@ class VolunteerController extends Controller
             'userable_id' => $volunteer->id,
             'userable_type' => 'App\Models\Volunteer'
         ]);
-
+        if($request->tags!=null)
+        {
+            foreach ($request->tags as $tag) {
+                DB::insert("INSERT INTO `taggables` (`tag_id`, `taggable_id`, `taggable_type`) VALUES ('$tag', '$volunteer->id', 'App\\\Models\\\Volunteer');");
+            }
+        }
         DB::commit();
         if ($profile_picture != null) {
             file_put_contents("img/" . $file_name, $fileBin);

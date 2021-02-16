@@ -21,6 +21,7 @@ class VolunteerResource extends JsonResource
             'mobile' => $this->mobile,
             'NID' => $this->NID,
             'img' => $this->img,
+            'tags' => TagResource::collection($this->tags),
             'jobs' => JobResource::collection($this->jobs),
             'achievments' => AchievmentResource::collection($this->achievments)
         ];

@@ -59,6 +59,12 @@ class OrganizationController extends Controller
             'userable_type' => 'App\Models\Organization'
         ]);
 
+        if($request->tags!=null)
+        {
+            foreach ($request->tags as $tag) {
+                DB::insert("INSERT INTO `taggables` (`tag_id`, `taggable_id`, `taggable_type`) VALUES ('$tag', '$organization->id', 'App\\\Models\\\Organization');");
+            }
+        }
         DB::commit();
         if ($profile_picture != null) {
             file_put_contents("img/" . $file_name, $fileBin);

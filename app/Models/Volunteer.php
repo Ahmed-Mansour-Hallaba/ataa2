@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Volunteer extends Model
 {
+    public $timestamps = false;
+
     public function user()
     {
         return $this->morphOne('App\Models\User', 'userable');
     }
     public function jobs()
     {
-        return $this->hasMany('App\Models\Job');
+        return $this->belongsToMany('App\Models\Job','volunteers_jobs');
     }
 
     public function achievments()
