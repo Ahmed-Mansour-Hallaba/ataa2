@@ -53,7 +53,7 @@ class VolunteerController extends Controller
                 ], 400);
             }
         }
-        $volunteer->img = $file_name;
+        $volunteer->img =  '/img/'.$file_name;
 
         if ($profile_picture != null) {
             file_put_contents("img/" . $file_name, $fileBin);

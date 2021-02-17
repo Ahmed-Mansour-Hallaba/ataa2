@@ -21,7 +21,8 @@ class OrganizationResource extends JsonResource
             'mobile'=>$this->mobile,
             'mobile2'=>$this->mobile2,
             'img'=>$this->img,
-            'jobs'=>JobResource::collection($this->jobs)
+            'jobs'=>JobResource::collection($this->jobs),
+            'type'=>'Organization'
         ];
     }
 }

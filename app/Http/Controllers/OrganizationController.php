@@ -42,7 +42,7 @@ class OrganizationController extends Controller
                 ], 400);
             }
         }
-        $organization->img = $file_name;
+        $organization->img = '/img/'.$file_name;
 
         if ($profile_picture != null) {
             file_put_contents("img/" . $file_name, $fileBin);
