@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MinJobResource;
 use App\Http\Resources\OrganizationResource;
 use App\Models\Organization;
 use App\Models\User;
@@ -9,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Message;
+use App\Models\Job;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class OrganizationController extends Controller
 {
@@ -138,5 +142,12 @@ class OrganizationController extends Controller
             "message" => OrganizationResource::collection($organizations),
             "paginate"=> $organizations
         ], 200);
+    }
+    public function activeJobs()
+    {
+        $jobs= Job::where('end_date', '>=', Carbon::today())
+        ->where('organization_id', Auth::user()->userable_id)->get();
+        return MinJobResource::collection($jobs);
+
     }
 }
