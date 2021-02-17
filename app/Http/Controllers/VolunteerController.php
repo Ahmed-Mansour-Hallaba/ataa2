@@ -95,7 +95,7 @@ class VolunteerController extends Controller
 
         $file_name = "";
         if ($profile_picture != null) {
-            if($volunteer->img!='img/default.png')
+            if($volunteer->img!='default.png')
                 unlink($volunteer->img);
             $generate_name = uniqid() . "_" . time() . date("Ymd") . "_IMG";
             $base64Image = $profile_picture;
@@ -115,6 +115,8 @@ class VolunteerController extends Controller
                 ], 400);
             }
         }
+        $volunteer->img =  '/img/'.$file_name;
+
         $volunteer->save();
         $user = User::find($volunteer->user()->id);
         $user->name = $request->name;

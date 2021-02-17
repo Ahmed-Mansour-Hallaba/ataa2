@@ -22,7 +22,7 @@ class OrganizationController extends Controller
 
         $file_name = "";
         if ($profile_picture == null) {
-            $file_name = "img/default.png";
+            $file_name = "default.png";
         } else {
             $generate_name = uniqid() . "_" . time() . date("Ymd") . "_IMG";
             $base64Image = $profile_picture;
@@ -105,6 +105,8 @@ class OrganizationController extends Controller
                 ], 400);
             }
         }
+        $organization->img =  '/img/'.$file_name;
+
         $organization->save();
         $user = User::find($organization->user()->id);
         $user->name = $request->name;

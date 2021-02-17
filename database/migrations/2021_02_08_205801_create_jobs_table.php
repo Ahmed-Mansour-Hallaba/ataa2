@@ -18,6 +18,7 @@ class CreateJobsTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->unsignedBigInteger('tag_id');
+            $table->date('end_date');
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
 
 
