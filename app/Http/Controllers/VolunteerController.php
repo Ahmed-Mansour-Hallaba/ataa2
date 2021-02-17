@@ -7,6 +7,7 @@ use App\Message;
 use App\Models\User;
 use App\Models\Volunteer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -53,7 +54,7 @@ class VolunteerController extends Controller
                 ], 400);
             }
         }
-        $volunteer->img =  '/img/'.$file_name;
+        $volunteer->img =  '/img/' . $file_name;
 
         if ($profile_picture != null) {
             file_put_contents("img/" . $file_name, $fileBin);
@@ -69,8 +70,7 @@ class VolunteerController extends Controller
             'userable_id' => $volunteer->id,
             'userable_type' => 'App\Models\Volunteer'
         ]);
-        if($request->tags!=null)
-        {
+        if ($request->tags != null) {
             foreach ($request->tags as $tag) {
                 DB::insert("INSERT INTO `taggables` (`tag_id`, `taggable_id`, `taggable_type`) VALUES ('$tag', '$volunteer->id', 'App\\\Models\\\Volunteer');");
             }
@@ -95,7 +95,7 @@ class VolunteerController extends Controller
 
         $file_name = "";
         if ($profile_picture != null) {
-            if($volunteer->img!='default.png')
+            if ($volunteer->img != 'default.png')
                 unlink($volunteer->img);
             $generate_name = uniqid() . "_" . time() . date("Ymd") . "_IMG";
             $base64Image = $profile_picture;
@@ -115,7 +115,7 @@ class VolunteerController extends Controller
                 ], 400);
             }
         }
-        $volunteer->img =  '/img/'.$file_name;
+        $volunteer->img =  '/img/' . $file_name;
 
         $volunteer->save();
         $user = User::find($volunteer->user()->id);
@@ -140,13 +140,20 @@ class VolunteerController extends Controller
             "message" => new VolunteerResource($volunteer)
         ], 200);
     }
-    public function list($pagination=null)
+    public function list()
     {
-         $volunteers= Volunteer::paginate(10)->withQueryString();
+        $volunteers = Volunteer::paginate(10)->withQueryString();
         return response()->json([
             "success" => true,
             "message" => VolunteerResource::collection($volunteers),
-            "paginate"=> $volunteers
+            "paginate" => $volunteers
+        ], 200);
+    }
+    public function request(Request $request)
+    {
+        DB::insert('insert into `volunteers_jobs` (`volunteer_id`, `job_id`, `status`) VALUES (?, ?, ?);', [Auth::user()->userable_id, $request->job_id,'pending']);
+        return response()->json([
+            "success" => true,
         ], 200);
     }
 }

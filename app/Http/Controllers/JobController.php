@@ -9,6 +9,7 @@ use App\Models\Job;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class JobController extends Controller
 {
@@ -24,6 +25,11 @@ class JobController extends Controller
     public function show($id)
     {
         return new JobResource(Job::find($id));
+    }
+    public function requests(Request $request)
+    {
+        $jid=$request->job_id;
+        return  DB::select("select userable_id,name from users u join volunteers_jobs vj on (vj.volunteer_id=u.userable_id ) WHERE  vj.job_id=$jid and vj.status='pending'and userable_type like '%V%'");
     }
     public function store(Request $request)
     {
