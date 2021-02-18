@@ -17,7 +17,7 @@ class MinJobResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'description'=>substr($this->description,0,20),
+            // 'description'=>substr($this->description,0,20),
             'organization'=>$this->organization->user->name,
 
         ];
