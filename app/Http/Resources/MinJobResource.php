@@ -19,6 +19,7 @@ class MinJobResource extends JsonResource
             'name'=>$this->name,
             // 'description'=>substr($this->description,0,20),
             'organization'=>$this->organization->user->name,
+            'img'=>$this->media
 
         ];
     }
