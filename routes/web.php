@@ -23,6 +23,7 @@ $router->post('login', 'AuthController@login');
 $router->post('/organization/store', 'OrganizationController@store');
 $router->post('/volunteer/store', 'VolunteerController@store');
 $router->get('/tags/list', 'TagController@list');
+$router->get('/cities/list', 'CityController@list');
 
 $router->group(['middleware' => 'auth'], function () use ($router) {
 
