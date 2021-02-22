@@ -25,6 +25,11 @@ class CreateJobsTable extends Migration
             $table->unsignedBigInteger('organization_id');
             $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
 
+
+
+            $table->unsignedBigInteger('city_id');
+            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
+
             $table->string('media')->default('images/default.png');
         });
     }

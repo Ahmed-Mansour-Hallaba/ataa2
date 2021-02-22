@@ -23,23 +23,30 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123456'),
         ]);
         DB::table('tags')->insert([
-            'name'=>'tag1'
+            'name' => 'tag1'
         ]);
 
         DB::table('tags')->insert([
-            'name'=>'tag2'
+            'name' => 'tag2'
         ]);
 
         DB::table('tags')->insert([
-            'name'=>'tag3'
+            'name' => 'tag3'
         ]);
 
         DB::table('tags')->insert([
-            'name'=>'tag4'
+            'name' => 'tag4'
         ]);
 
         DB::table('tags')->insert([
-            'name'=>'tag5'
+            'name' => 'tag5'
         ]);
+        $cities = ['الرياض', 'الدرعية', 'الخرج', 'الدوادمي', 'المجمعة', 'القويعية', 'الأفلاج', 'وادي الدواسر	', 'الزلفي	', 'شقراء	', 'حوطة بني تميم	', 'عفيف	', 'الغاط	', 'محافظة جدة	', 'محافظة العاصمة المقدسة	', 'الطائف	', 'المدينة المنورة	', 'ينبع	', 'العلا	', 'بريدة', 'عنيزة', 'الدمام	', 'حفر الباطن	', 'الخبر	', 'أبها	',
+        'خميس مشيط	', 'النماص', 'تبوك', 'الوجه', 'حائل', 'عرعر', 'جازان	', 'نجران	',];
+        foreach ($cities as $city) {
+            DB::table('cities')->insert([
+                'name'=>$city
+            ]);
+        }
     }
 }

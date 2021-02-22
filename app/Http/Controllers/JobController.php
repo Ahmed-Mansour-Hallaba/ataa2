@@ -47,6 +47,7 @@ class JobController extends Controller
         $job->description = $request->description;
         $job->end_date = $request->end_date;
         $job->tag_id = $request->tag_id;
+        $job->city_id = $request->city_id;
         $profile_picture = $request->img;
 
         $file_name = "";
@@ -89,9 +90,10 @@ class JobController extends Controller
         ->join('volunteers_jobs','jobs.id','=','volunteers_jobs.job_id')
         ->join('volunteers','volunteers.id','=','volunteers_jobs.volunteer_id')
         ->join('users','volunteers.id','=','users.userable_id')
+        ->join('cities','cities.id','=','jobs.city_id')
         ->where('jobs.id',"$request->job_id")
         ->where('users.userable_type',"App\Models\Volunteer")
-        ->selectRaw('volunteers.id , users.name,volunteers.mobile,users.email,IFNULL(volunteers_jobs.stars,-1) as rating,volunteers_jobs.status')
+        ->selectRaw('volunteers.id , users.name,volunteers.mobile,users.email,IFNULL(volunteers_jobs.stars,-1) as rating,volunteers_jobs.status,city.name')
         ->get();
         return $volunteers;
     }
