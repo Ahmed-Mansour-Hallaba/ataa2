@@ -16,10 +16,19 @@ class JobController extends Controller
     public function getJobByTags(Request $request)
     {
         $tags = $request->tags;
+        $city = $request->city_id;
 
-        $jobs = Job::where('end_date', '>=', Carbon::today())
-            ->whereIn('tag_id', $tags)->get();
-
+        $jobs = Job::where('end_date', '>=', Carbon::today());
+        if($tags!=null)
+        {
+            $jobs->whereIn('tag_id', $tags);
+        }
+        if($city!=null)
+        {
+            $jobs->where('city_id',$city);
+        }
+        $jobs=$jobs->get();
+        // return $jobs;
         return MinJobResource::collection($jobs);
     }
     public function show($id)

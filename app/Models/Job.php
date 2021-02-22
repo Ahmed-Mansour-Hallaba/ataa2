@@ -19,7 +19,7 @@ class Job extends Model
 
     public function city()
     {
-        return $this->belongsTo('App\Models\Cities');
+        return $this->belongsTo('App\Models\City');
     }
     public function tag()
     {
