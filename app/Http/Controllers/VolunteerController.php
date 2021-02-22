@@ -151,6 +151,18 @@ class VolunteerController extends Controller
     }
     public function request(Request $request)
     {
+        $check=DB::table('volunteers_jobs')
+        ->where('volunteer_id',Auth::user()->userable_id)
+        ->where('job_id',$request->job_id)
+        ->count();
+        if($check>0)
+        {
+            $message = new Message("تم التسجيل مسبقا");
+            return response()->json([
+                "success" => false,
+                "message" => $message
+            ], 400);
+        }
         DB::insert('insert into `volunteers_jobs` (`volunteer_id`, `job_id`, `status`) VALUES (?, ?, ?);', [Auth::user()->userable_id, $request->job_id,'pending']);
         return response()->json([
             "success" => true,

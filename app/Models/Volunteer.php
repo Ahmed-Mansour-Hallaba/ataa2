@@ -17,10 +17,6 @@ class Volunteer extends Model
         return $this->belongsToMany('App\Models\Job','volunteers_jobs');
     }
 
-    public function achievments()
-    {
-        return $this->hasMany('App\Models\Achievment');
-    }
     public function tags()
     {
         return $this->morphToMany('App\Models\Tag', 'taggable');

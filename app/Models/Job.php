@@ -9,12 +9,9 @@ class Job extends Model
     public $timestamps = false;
     public function volunteers()
     {
-        return $this->belongsToMany('App\Models\Volunteer','volunteers_jobs');
+        return $this->belongsToMany('App\Models\Volunteer','volunteers_jobs')->withPivot('status','stars','feedback');
     }
-    public function acheivers()
-    {
-        return $this->hasManyThrough('App\Models\Volunteer', 'App\Models\Achievment');
-    }
+
     public function organization()
     {
         return $this->belongsTo('App\Models\Organization');

@@ -19,6 +19,8 @@ class CreateVolunteersJobsTable extends Migration
             $table->unsignedBigInteger('job_id');
             $table->foreign('job_id')->references('id')->on('jobs')->onDelete('cascade');
             $table->string('status');
+            $table->string('feedback')->nullable();
+            $table->smallInteger('stars')->nullable();
 
         });
     }

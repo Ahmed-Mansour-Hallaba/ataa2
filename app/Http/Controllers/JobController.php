@@ -83,4 +83,16 @@ class JobController extends Controller
             "success" => true,
         ], 200);
     }
+    public function volunteers(Request $request)
+    {
+        $volunteers=DB::table('jobs')
+        ->join('volunteers_jobs','jobs.id','=','volunteers_jobs.job_id')
+        ->join('volunteers','volunteers.id','=','volunteers_jobs.volunteer_id')
+        ->join('users','volunteers.id','=','users.userable_id')
+        ->where('jobs.id',"$request->job_id")
+        ->where('users.userable_type',"App\Models\Volunteer")
+        ->selectRaw('volunteers.id , users.name,volunteers.mobile,users.email,IFNULL(volunteers_jobs.stars,-1) as rating,volunteers_jobs.status')
+        ->get();
+        return $volunteers;
+    }
 }

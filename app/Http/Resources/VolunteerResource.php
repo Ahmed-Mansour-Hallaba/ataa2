@@ -24,7 +24,7 @@ class VolunteerResource extends JsonResource
             'type'=>'Volunteer',
             'tags' => TagResource::collection($this->tags),
             'jobs' => JobResource::collection($this->jobs),
-            'achievments' => AchievmentResource::collection($this->achievments)
+            // 'achievments' => AchievmentResource::collection($this->achievments)
         ];
     }
 }
