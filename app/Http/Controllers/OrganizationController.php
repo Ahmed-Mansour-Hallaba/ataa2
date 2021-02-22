@@ -150,4 +150,21 @@ class OrganizationController extends Controller
         return MinJobResource::collection($jobs);
 
     }
+
+    public function allJobs()
+    {
+        $jobs= Job::where('organization_id', Auth::user()->userable_id)->get();
+        return MinJobResource::collection($jobs);
+
+    }
+    public function updateRequest(Request $request)
+    {
+        $job_id=$request->job_id;
+        $volunteer_id=$request->volunteer_id;
+        $value=$request->value;
+        DB::update('update volunteers_jobs set status = ? where volunteer_id = ? and job_id= ?', [$value,$volunteer_id,$job_id]);
+        return response()->json([
+            "success" => true,
+        ], 200);
+    }
 }
