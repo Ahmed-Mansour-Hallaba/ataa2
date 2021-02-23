@@ -90,7 +90,7 @@ class VolunteerController extends Controller
         DB::beginTransaction();
         $volunteer = Volunteer::find(Auth::user()->userable_id);
         $volunteer->mobile = $request->mobile;
-        $volunteer->mobile2 = $request->mobile2;
+        $volunteer->NID = $request->NID;
         $profile_picture = $request->img;
 
         $file_name = "";
