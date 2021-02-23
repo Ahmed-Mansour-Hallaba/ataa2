@@ -20,7 +20,7 @@ class TagController extends Controller
     public function store(Request $request)
     {
 
-        if(Auth::user()->userable_type!='Admin')
+        if(Auth::user()->userable_type!='admin')
         {
             $message = new Message("يجب ان تكون مدير");
                 return response()->json([
