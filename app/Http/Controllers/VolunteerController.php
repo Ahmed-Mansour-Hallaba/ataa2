@@ -92,9 +92,9 @@ class VolunteerController extends Controller
         $volunteer->mobile = $request->mobile;
         $volunteer->NID = $request->NID;
         $profile_picture = $request->img;
-
+        //'data:image'
         $file_name = "";
-        if ($profile_picture != null && $profile_picture!='') {
+        if (substr($profile_picture,0,10)=='data:image') {
             if ($volunteer->img != 'default.png')
                 if (file_exists($volunteer->img))
                     unlink($volunteer->img);
@@ -115,8 +115,8 @@ class VolunteerController extends Controller
                     "message" => $message
                 ], 400);
             }
+            $volunteer->img =  '/img/' . $file_name;
         }
-        $volunteer->img =  '/img/' . $file_name;
 
         $volunteer->save();
         $user = User::find($volunteer->user->id);

@@ -87,7 +87,7 @@ class OrganizationController extends Controller
         $profile_picture = $request->img;
 
         $file_name = "";
-        if ($profile_picture != null && $profile_picture!='') {
+        if (substr($profile_picture,0,10)=='data:image') {
             if ($organization->img != 'img/default.png' )
                 if (file_exists($organization->img))
                     unlink($organization->img);
@@ -108,8 +108,9 @@ class OrganizationController extends Controller
                     "message" => $message
                 ], 400);
             }
+            $organization->img =  '/img/' . $file_name;
+
         }
-        $organization->img =  '/img/' . $file_name;
 
         $organization->save();
         $user = User::find($organization->user->id);
