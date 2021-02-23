@@ -96,7 +96,8 @@ class VolunteerController extends Controller
         $file_name = "";
         if ($profile_picture != null) {
             if ($volunteer->img != 'default.png')
-                unlink($volunteer->img);
+                if (file_exists($volunteer->img))
+                    unlink($volunteer->img);
             $generate_name = uniqid() . "_" . time() . date("Ymd") . "_IMG";
             $base64Image = $profile_picture;
             $fileBin = file_get_contents($base64Image);
@@ -151,19 +152,18 @@ class VolunteerController extends Controller
     }
     public function request(Request $request)
     {
-        $check=DB::table('volunteers_jobs')
-        ->where('volunteer_id',Auth::user()->userable_id)
-        ->where('job_id',$request->job_id)
-        ->count();
-        if($check>0)
-        {
+        $check = DB::table('volunteers_jobs')
+            ->where('volunteer_id', Auth::user()->userable_id)
+            ->where('job_id', $request->job_id)
+            ->count();
+        if ($check > 0) {
             $message = new Message("تم التسجيل مسبقا");
             return response()->json([
                 "success" => false,
                 "message" => $message
             ], 400);
         }
-        DB::insert('insert into `volunteers_jobs` (`volunteer_id`, `job_id`, `status`) VALUES (?, ?, ?);', [Auth::user()->userable_id, $request->job_id,'pending']);
+        DB::insert('insert into `volunteers_jobs` (`volunteer_id`, `job_id`, `status`) VALUES (?, ?, ?);', [Auth::user()->userable_id, $request->job_id, 'pending']);
         return response()->json([
             "success" => true,
         ], 200);

@@ -46,7 +46,7 @@ class OrganizationController extends Controller
                 ], 400);
             }
         }
-        $organization->img = '/img/'.$file_name;
+        $organization->img = '/img/' . $file_name;
 
         if ($profile_picture != null) {
             file_put_contents("img/" . $file_name, $fileBin);
@@ -63,8 +63,7 @@ class OrganizationController extends Controller
             'userable_type' => 'App\Models\Organization'
         ]);
 
-        if($request->tags!=null)
-        {
+        if ($request->tags != null) {
             foreach ($request->tags as $tag) {
                 DB::insert("INSERT INTO `taggables` (`tag_id`, `taggable_id`, `taggable_type`) VALUES ('$tag', '$organization->id', 'App\\\Models\\\Organization');");
             }
@@ -89,8 +88,9 @@ class OrganizationController extends Controller
 
         $file_name = "";
         if ($profile_picture != null) {
-            if($organization->img!='img/default.png')
-                unlink($organization->img);
+            if ($organization->img != 'img/default.png')
+                if (file_exists($organization->img))
+                    unlink($organization->img);
             $generate_name = uniqid() . "_" . time() . date("Ymd") . "_IMG";
             $base64Image = $profile_picture;
             $fileBin = file_get_contents($base64Image);
@@ -109,7 +109,7 @@ class OrganizationController extends Controller
                 ], 400);
             }
         }
-        $organization->img =  '/img/'.$file_name;
+        $organization->img =  '/img/' . $file_name;
 
         $organization->save();
         $user = User::find($organization->user->id);
@@ -134,48 +134,45 @@ class OrganizationController extends Controller
             "message" => new OrganizationResource($organization)
         ], 200);
     }
-    public function list($pagination=null)
+    public function list($pagination = null)
     {
-         $organizations= Organization::paginate(10)->withQueryString();
+        $organizations = Organization::paginate(10)->withQueryString();
         return response()->json([
             "success" => true,
             "message" => OrganizationResource::collection($organizations),
-            "paginate"=> $organizations
+            "paginate" => $organizations
         ], 200);
     }
     public function activeJobs()
     {
-        $jobs= Job::where('end_date', '>=', Carbon::today())
-        ->where('organization_id', Auth::user()->userable_id)->get();
+        $jobs = Job::where('end_date', '>=', Carbon::today())
+            ->where('organization_id', Auth::user()->userable_id)->get();
         return MinJobResource::collection($jobs);
-
     }
 
     public function allJobs()
     {
-        $jobs= Job::where('organization_id', Auth::user()->userable_id)->get();
+        $jobs = Job::where('organization_id', Auth::user()->userable_id)->get();
         return MinJobResource::collection($jobs);
-
     }
     public function updateRequest(Request $request)
     {
-        $job_id=$request->job_id;
-        $volunteer_id=$request->volunteer_id;
-        $value=$request->value;
-        DB::update('update volunteers_jobs set status = ? where volunteer_id = ? and job_id= ?', [$value,$volunteer_id,$job_id]);
+        $job_id = $request->job_id;
+        $volunteer_id = $request->volunteer_id;
+        $value = $request->value;
+        DB::update('update volunteers_jobs set status = ? where volunteer_id = ? and job_id= ?', [$value, $volunteer_id, $job_id]);
         return response()->json([
             "success" => true,
         ], 200);
     }
     public function rateVolunteer(Request $request)
     {
-        $volunteer_id=$request->volunteer_id;
-        $job_id=$request->job_id;
-        $rating=$request->rating;
-        DB::update('update volunteers_jobs set stars = ? where volunteer_id = ? and job_id= ?', [$rating,$volunteer_id,$job_id]);
+        $volunteer_id = $request->volunteer_id;
+        $job_id = $request->job_id;
+        $rating = $request->rating;
+        DB::update('update volunteers_jobs set stars = ? where volunteer_id = ? and job_id= ?', [$rating, $volunteer_id, $job_id]);
         return response()->json([
             "success" => true,
         ], 200);
-
     }
 }
