@@ -118,7 +118,7 @@ class VolunteerController extends Controller
         $volunteer->img =  '/img/' . $file_name;
 
         $volunteer->save();
-        $user = User::find($volunteer->user()->id);
+        $user = User::find($volunteer->user->id);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);

@@ -112,7 +112,7 @@ class OrganizationController extends Controller
         $organization->img =  '/img/'.$file_name;
 
         $organization->save();
-        $user = User::find($organization->user()->id);
+        $user = User::find($organization->user->id);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
