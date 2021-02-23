@@ -94,7 +94,7 @@ class VolunteerController extends Controller
         $profile_picture = $request->img;
 
         $file_name = "";
-        if ($profile_picture != null) {
+        if ($profile_picture != null && $profile_picture!='') {
             if ($volunteer->img != 'default.png')
                 if (file_exists($volunteer->img))
                     unlink($volunteer->img);

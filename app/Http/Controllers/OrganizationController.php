@@ -87,8 +87,8 @@ class OrganizationController extends Controller
         $profile_picture = $request->img;
 
         $file_name = "";
-        if ($profile_picture != null) {
-            if ($organization->img != 'img/default.png')
+        if ($profile_picture != null && $profile_picture!='') {
+            if ($organization->img != 'img/default.png' )
                 if (file_exists($organization->img))
                     unlink($organization->img);
             $generate_name = uniqid() . "_" . time() . date("Ymd") . "_IMG";
