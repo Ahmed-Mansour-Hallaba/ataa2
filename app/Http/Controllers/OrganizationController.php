@@ -82,7 +82,7 @@ class OrganizationController extends Controller
     public function update(Request $request)
     {
         DB::beginTransaction();
-        $organization = Organization::find($request->id);
+        $organization = Organization::find(Auth::user()->userable_id);
         $organization->mobile = $request->mobile;
         $organization->mobile2 = $request->mobile2;
         $profile_picture = $request->img;

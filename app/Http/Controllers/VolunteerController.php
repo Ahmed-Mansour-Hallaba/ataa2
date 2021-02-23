@@ -88,7 +88,7 @@ class VolunteerController extends Controller
     public function update(Request $request)
     {
         DB::beginTransaction();
-        $volunteer = Volunteer::find($request->id);
+        $volunteer = Volunteer::find(Auth::user()->userable_id);
         $volunteer->mobile = $request->mobile;
         $volunteer->mobile2 = $request->mobile2;
         $profile_picture = $request->img;
