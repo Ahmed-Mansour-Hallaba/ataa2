@@ -167,4 +167,15 @@ class OrganizationController extends Controller
             "success" => true,
         ], 200);
     }
+    public function rateVolunteer(Request $request)
+    {
+        $volunteer_id=$request->volunteer_id;
+        $job_id=$request->job_id;
+        $rating=$request->rating;
+        DB::update('update volunteers_jobs set stars = ? where volunteer_id = ? and job_id= ?', [$rating,$volunteer_id,$job_id]);
+        return response()->json([
+            "success" => true,
+        ], 200);
+
+    }
 }

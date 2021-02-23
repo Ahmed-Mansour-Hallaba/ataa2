@@ -32,6 +32,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->get('/organization/activejobs', 'OrganizationController@activeJobs');
     $router->get('/organization/alljobs', 'OrganizationController@allJobs');
     $router->post('/organization/updaterequest', 'OrganizationController@updateRequest');
+    $router->post('/organization/ratevolunteer', 'OrganizationController@rateVolunteer');
 
 
     $router->get('/volunteer/show/{id}', 'VolunteerController@show');
