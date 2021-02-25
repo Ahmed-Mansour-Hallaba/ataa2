@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class JobResource extends JsonResource
@@ -20,6 +21,8 @@ class JobResource extends JsonResource
             'description'=>$this->description,
             'end_date'=>$this->end_date,
             'registration_date'=>$this->registration_date,
+            'is_ended'=>$this->end_date<Carbon::today()?'ended':'working',
+            'can_register'=>$this->registration_date<Carbon::today()?'ended':'working',
             'img'=>$this->media,
             'tag'=>$this->tag->name,
             'city'=>$this->city->name,
