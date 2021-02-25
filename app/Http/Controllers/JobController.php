@@ -18,7 +18,7 @@ class JobController extends Controller
         $tags = $request->tags;
         $city = $request->city_id;
 
-        $jobs = Job::where('end_date', '>=', Carbon::today());
+        $jobs = Job::where('registration_date', '>=', Carbon::today());
         if($tags!=null)
         {
             $jobs->whereIn('tag_id', $tags);
