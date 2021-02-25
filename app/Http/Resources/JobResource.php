@@ -19,6 +19,7 @@ class JobResource extends JsonResource
             'name'=>$this->name,
             'description'=>$this->description,
             'end_date'=>$this->end_date,
+            'registration_date'=>$this->registration_date,
             'img'=>$this->media,
             'tag'=>$this->tag->name,
             'city'=>$this->city->name,

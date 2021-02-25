@@ -55,6 +55,7 @@ class JobController extends Controller
         $job->name = $request->name;
         $job->description = $request->description;
         $job->end_date = $request->end_date;
+        $job->registration_date = $request->registration_date;
         $job->tag_id = $request->tag_id;
         $job->city_id = $request->city_id;
         $profile_picture = $request->img;
@@ -106,5 +107,52 @@ class JobController extends Controller
         ->selectRaw('volunteers.id ,volunteers.NID, users.name,volunteers.mobile,users.email,IFNULL(volunteers_jobs.stars,-1) as rating,volunteers_jobs.status,cities.name as city_name')
         ->get();
         return $volunteers;
+    }
+    public function update(Request $request)
+    {
+
+        $job = Job::find($request->job_id);
+        $job->name = $request->name;
+        $job->description = $request->description;
+        $job->end_date = $request->end_date;
+        $job->registration_date = $request->registration_date;
+        $job->tag_id = $request->tag_id;
+        $job->city_id = $request->city_id;
+        $profile_picture = $request->img;
+
+        $file_name = "";
+        if ($profile_picture == null || $profile_picture=='') {
+            // $file_name = "default.png";
+        } else {
+            $generate_name = uniqid() . "_" . time() . date("Ymd") . "_IMG";
+            $base64Image = $profile_picture;
+            $fileBin = file_get_contents($base64Image);
+            $mimtype = mime_content_type($base64Image);
+            if ($mimtype == "image/png") {
+                $file_name = $generate_name . ".png";
+            } else if ($mimtype == "image/jpeg") {
+                $file_name = $generate_name . ".jpeg";
+            } else if ($mimtype == "image/jpg") {
+                $file_name = $generate_name . ".jpg";
+            } else {
+                $message = new Message("Profile image must be image file (png,jpeg,jpg)");
+                return response()->json([
+                    "success" => false,
+                    "message" => $message
+                ], 400);
+            }
+            $job->media = '/img/' . $file_name;
+
+        }
+        $job->organization_id=Auth::user()->userable_id;
+        if ($profile_picture != null) {
+            file_put_contents("img/" . $file_name, $fileBin);
+        }
+
+
+        $job->save();
+        return response()->json([
+            "success" => true,
+        ], 200);
     }
 }
