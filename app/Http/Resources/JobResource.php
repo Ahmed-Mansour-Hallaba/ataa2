@@ -30,8 +30,8 @@ class JobResource extends JsonResource
             'organization'=>$this->organization->user->name,
             'organization_logo'=>$this->organization->img,
             'organization_email'=>$this->organization->user->email,
-            'organization_mobile'=>$this->organization->user->mobile,
-            'organization_mobile2'=>$this->organization->user->mobile2,
+            'organization_mobile'=>$this->organization->mobile,
+            'organization_mobile2'=>$this->organization->mobile2,
             'stars' => $this->whenPivotLoaded('volunteers_jobs', function () {
                 return $this->pivot->stars;
             }),
