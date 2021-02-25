@@ -18,8 +18,8 @@ class UserResource extends JsonResource
             'id'=>$this->id,
             'email'=>$this->email,
             'name'=>$this->name,
-            'userable_type'=>$this->userable_type,
-            'type'=>'Admin'
+            'type'=>$this->userable_type,
+            // 'type'=>'Admin'
         ];
     }
 }

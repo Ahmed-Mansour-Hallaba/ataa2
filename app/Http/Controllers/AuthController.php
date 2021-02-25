@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\OrganizationResource;
+use App\Http\Resources\UserResource;
 use App\Http\Resources\VolunteerResource;
 use App\Models\Organization;
 use App\Models\User;
@@ -33,7 +34,7 @@ class AuthController extends Controller
         else if (Auth::user()->userable_type == 'App\Models\Volunteer')
             return ([$this->respondWithToken($token), new VolunteerResource(Volunteer::find(Auth::user()->userable_id))]);
         else
-            return ([$this->respondWithToken($token), Auth::user()]);
+            return ([$this->respondWithToken($token),new UserResource(Auth::user())]);
     }
     public function register(Request $request)
     {
@@ -52,6 +53,6 @@ class AuthController extends Controller
         else if (Auth::user()->userable_type == 'App\Models\Volunteer')
             return new VolunteerResource(Volunteer::find(Auth::user()->userable_id));
         else
-            return Auth::user();
+            return new UserResource(Auth::user());
     }
 }
