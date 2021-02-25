@@ -25,7 +25,7 @@ class MinJobResource extends JsonResource
             'tag'=>$this->tag->name,
             'is_ended'=>$this->end_date<Carbon::today()?'ended':'working',
             'can_register'=>$this->registration_date<Carbon::today()?'ended':'working',
-            'volunteers_count'=> count($this->volunteers),
+            'volunteers_count'=> count($this->volunteers()->where('status','!=','rejected')->get()),
             // 'description'=>substr($this->description,0,20),
             'organization'=>$this->organization->user->name,
             'img'=>$this->media
