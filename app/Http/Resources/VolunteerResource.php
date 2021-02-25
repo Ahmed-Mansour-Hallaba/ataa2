@@ -23,7 +23,9 @@ class VolunteerResource extends JsonResource
             'img' => $this->img,
             'type'=>'Volunteer',
             'tags' => TagResource::collection($this->tags),
+
             'jobs' => JobResource::collection($this->jobs),
+
             // 'achievments' => AchievmentResource::collection($this->achievments)
         ];
     }

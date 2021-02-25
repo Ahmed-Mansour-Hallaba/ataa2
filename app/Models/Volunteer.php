@@ -14,7 +14,7 @@ class Volunteer extends Model
     }
     public function jobs()
     {
-        return $this->belongsToMany('App\Models\Job','volunteers_jobs');
+        return $this->belongsToMany('App\Models\Job','volunteers_jobs')->withPivot('status','stars','feedback');
     }
 
     public function tags()

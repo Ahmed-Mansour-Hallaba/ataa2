@@ -24,6 +24,7 @@ $router->post('/organization/store', 'OrganizationController@store');
 $router->post('/volunteer/store', 'VolunteerController@store');
 $router->get('/tags/list', 'TagController@list');
 $router->get('/cities/list', 'CityController@list');
+$router->post('/jobs/jobsbytags', 'JobController@getJobByTags');
 
 $router->group(['middleware' => 'auth'], function () use ($router) {
 
@@ -42,7 +43,6 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->post('/volunteer/update', 'VolunteerController@update');
 
 
-    $router->post('/jobs/jobsbytags', 'JobController@getJobByTags');
     $router->post('/jobs/store', 'JobController@store');
     $router->post('/jobs/requests', 'JobController@requests');
     $router->get('/jobs/show/{id}', 'JobController@show');

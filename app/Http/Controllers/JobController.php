@@ -103,7 +103,7 @@ class JobController extends Controller
         ->where('jobs.id',"$request->job_id")
         ->where('users.userable_type',"App\Models\Volunteer")
         ->where('volunteers_jobs.status','!=','rejected')
-        ->selectRaw('volunteers.id , users.name,volunteers.mobile,users.email,IFNULL(volunteers_jobs.stars,-1) as rating,volunteers_jobs.status,cities.name as city_name')
+        ->selectRaw('volunteers.id ,volunteers.NID, users.name,volunteers.mobile,users.email,IFNULL(volunteers_jobs.stars,-1) as rating,volunteers_jobs.status,cities.name as city_name')
         ->get();
         return $volunteers;
     }
