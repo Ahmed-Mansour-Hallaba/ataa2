@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TagResource;
 use App\Message;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class TagController extends Controller
         $tags= Tag::all();
         return response()->json([
             "success" => true,
-            "message" => $tags,
+            "message" => TagResource::collection($tags),
         ], 200);
     }
     public function store(Request $request)
