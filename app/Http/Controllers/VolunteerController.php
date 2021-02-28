@@ -135,7 +135,7 @@ class VolunteerController extends Controller
     }
     public function show($id)
     {
-        DB::update("update volunteers_jobs set status='rejected' where status='pending' and job_id=(select id from jobs where registration_date< now())");
+        // DB::update("update volunteers_jobs set status='rejected' where status='pending' and job_id=(select id from jobs where registration_date< now())");
         $volunteer = Volunteer::where('id', $id)->first();
         return response()->json([
             "success" => true,
