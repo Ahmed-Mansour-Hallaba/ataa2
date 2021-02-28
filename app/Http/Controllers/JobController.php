@@ -96,6 +96,7 @@ class JobController extends Controller
     }
     public function volunteers(Request $request)
     {
+        //comment
         $volunteers=DB::table('jobs')
         ->join('volunteers_jobs','jobs.id','=','volunteers_jobs.job_id')
         ->join('volunteers','volunteers.id','=','volunteers_jobs.volunteer_id')
