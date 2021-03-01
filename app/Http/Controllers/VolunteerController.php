@@ -145,11 +145,10 @@ class VolunteerController extends Controller
     }
     public function list()
     {
-        $volunteers = Volunteer::paginate(10)->withQueryString();
+        $volunteers = Volunteer::all();
         return response()->json([
             "success" => true,
             "message" => VolunteerMinResource::collection($volunteers),
-            "paginate" => $volunteers
         ], 200);
     }
     public function request(Request $request)
