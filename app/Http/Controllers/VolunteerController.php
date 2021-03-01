@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\VolunteerMinResource;
 use App\Http\Resources\VolunteerResource;
 use App\Message;
 use App\Models\User;
@@ -147,7 +148,7 @@ class VolunteerController extends Controller
         $volunteers = Volunteer::paginate(10)->withQueryString();
         return response()->json([
             "success" => true,
-            "message" => VolunteerResource::collection($volunteers),
+            "message" => VolunteerMinResource::collection($volunteers),
             "paginate" => $volunteers
         ], 200);
     }
