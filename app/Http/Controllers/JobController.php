@@ -97,7 +97,7 @@ class JobController extends Controller
     public function volunteers(Request $request)
     {
         //update volunteers_jobs set status='rejected' where status='pending' and job_id=(select id from jobs where registration_date< now())
-        // DB::update("update volunteers_jobs set status='rejected' where status='pending' and job_id=(select id from jobs where registration_date< now())");
+        DB::update("update volunteers_jobs set status='rejected' where status='pending' and job_id=(select id from jobs where registration_date< now())");
         $volunteers=DB::table('jobs')
         ->join('volunteers_jobs','jobs.id','=','volunteers_jobs.job_id')
         ->join('volunteers','volunteers.id','=','volunteers_jobs.volunteer_id')
