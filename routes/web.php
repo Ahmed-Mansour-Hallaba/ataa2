@@ -51,6 +51,10 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->post('/tags/store', 'TagController@store');
 
 
+    $router->post('/admin/organizationstatus', 'AuthController@updateOrganizationStatus');
+    $router->post('/admin/volunteerstatus', 'AuthController@updateVolunteerStatus');
+
+
     $router->get('/userdata','AuthController@userData');
 
 });

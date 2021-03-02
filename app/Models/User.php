@@ -21,7 +21,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email','userable_id','userable_type','password'
+        'name', 'email','userable_id','userable_type','password','remeber_token'
     ];
     public $timestamps = false;
     /**

@@ -28,6 +28,13 @@ class AuthController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
+        if(Auth::user()->remember_token=='stopped')
+        {
+            Auth::logout();
+            return response()->json(['message' => 'Stopped account'], 401);
+
+        }
+
         if (Auth::user()->userable_type == 'App\Models\Organization')
             return ([$this->respondWithToken($token), new OrganizationResource(Organization::find(Auth::user()->userable_id))]);
 
@@ -54,5 +61,24 @@ class AuthController extends Controller
             return new VolunteerResource(Volunteer::find(Auth::user()->userable_id));
         else
             return new UserResource(Auth::user());
+    }
+    public function updateOrganizationStatus(Request $request)
+    {
+        $user=User::where('userable_type','like','%Organization%')
+        ->where('userable_id','=',"$request->id")->first();
+        $user->remember_token=$request->status;
+        $user->save();
+        return response()->json(['message' => 'Update successful'], 200);
+
+    }
+
+    public function updateVolunteerStatus(Request $request)
+    {
+        $user=User::where('userable_type','like','%Volunteer%')
+        ->where('userable_id','=',"$request->id")->first();
+        $user->remember_token=$request->status;
+        $user->save();
+        return response()->json(['message' => 'Update successful'], 200);
+
     }
 }
