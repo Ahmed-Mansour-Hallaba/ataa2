@@ -10,12 +10,15 @@ use App\Models\User;
 use App\Models\Volunteer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
+        DB::update("update volunteers_jobs set status='rejected' where status='pending' and job_id IN (select id from jobs where registration_date< now())");
+
         //validate incoming request
         $this->validate($request, [
             'email' => 'required|string',
@@ -55,6 +58,7 @@ class AuthController extends Controller
     }
     public function userData()
     {
+
         if (Auth::user()->userable_type == 'App\Models\Organization')
             return new OrganizationResource(Organization::find(Auth::user()->userable_id));
         else if (Auth::user()->userable_type == 'App\Models\Volunteer')
