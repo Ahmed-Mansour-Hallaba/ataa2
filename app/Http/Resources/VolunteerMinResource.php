@@ -22,6 +22,7 @@ class VolunteerMinResource extends JsonResource
             'NID' => $this->NID,
             'img' => $this->img,
             'type'=>'Volunteer',
+            'status'=>$this->user->remember_token=='stopped'?'stopped':'working',
             'tags' => TagResource::collection($this->tags),
 
             // 'jobs' => JobResource::collection($this->jobs),

@@ -21,6 +21,8 @@ class OrganizationResource extends JsonResource
             'mobile'=>$this->mobile,
             'mobile2'=>$this->mobile2,
             'img'=>$this->img,
+            'status'=>$this->user->remember_token=='stopped'?'stopped':'working',
+
             'jobs'=>JobResource::collection($this->jobs),
             'type'=>'Organization'
         ];
